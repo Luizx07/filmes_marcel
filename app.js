@@ -155,7 +155,7 @@ app.put('/v1/controle-genero/genero/:id', cors(), bodyParserJSON, async function
 /****************************************LEGENDA***************************************************/
 
 
-const controllerLegenda = require('./controller/legenda/controller.js');
+const controllerLegenda = require('./controller/legenda/controller.js')
 
 
 app.post('/v1/controle-legenda/legenda', cors(), bodyParserJSON, async function (request, response) {
@@ -173,27 +173,85 @@ app.get('/v1/controle-legenda/legenda', cors(), bodyParserJSON, async function (
 });
 
 app.get('/v1/controle-legenda/legenda/:id', cors(), bodyParserJSON, async function (request, response) {
-    let idLegenda = request.params.id;
-    let resultLegenda = await controllerLegenda.buscarLegenda(idLegenda);
-    response.status(resultLegenda.status_code);
-    response.json(resultLegenda);
-});
+    let idLegenda = request.params.id
+    let resultLegenda = await controllerLegenda.buscarLegenda(idLegenda)
+    response.status(resultLegenda.status_code)
+    response.json(resultLegenda)
+})
 
 app.delete('/v1/controle-legenda/legenda/delete/:id', cors(), async function (request, response) {
-    let id = request.params.id;
-    let resultLegenda = await controllerLegenda.excluirLegenda(id);
-    response.status(resultLegenda.status_code);
-    response.json(resultLegenda);
-});
+    let id = request.params.id
+    let resultLegenda = await controllerLegenda.excluirLegenda(id)
+    response.status(resultLegenda.status_code)
+    response.json(resultLegenda)
+})
 
 app.put('/v1/controle-legenda/legenda/:id', cors(), bodyParserJSON, async function (request, response) {
-    let contentType = request.headers['content-type'];
-    let idLegenda = request.params.id;
-    let dadosBody = request.body;
-    let resultLegenda = await controllerLegenda.atualizarLegenda(idLegenda, dadosBody, contentType);
-    response.status(resultLegenda.status_code);
-    response.json(resultLegenda);
-});
+    let contentType = request.headers['content-type']
+    let idLegenda = request.params.id
+    let dadosBody = request.body
+    let resultLegenda = await controllerLegenda.atualizarLegenda(idLegenda, dadosBody, contentType)
+    response.status(resultLegenda.status_code)
+    response.json(resultLegenda)
+})
+
+
+/****************************************FAIXA ETARIA***************************************************/
+
+
+const controllerFaixaEtaria = require('./controller/faixa_etaria/controller.js')
+
+app.post('/v1/controle-faixa_etaria/faixa', cors(), bodyParserJSON, async function (request, response) {
+
+    let contentType = request.headers['content-type']
+    let dadosBody = request.body
+    let resultFaixa = await controllerFaixaEtaria.inserirFaixa(dadosBody, contentType)
+
+    response.status(resultFaixa.status_code)
+
+    response.json(resultFaixa)
+})
+
+app.get('/v1/controle-faixa_etaria/faixa', cors(), bodyParserJSON, async function (request, response) {
+
+    let resultFaixa = await controllerFaixaEtaria.listarFaixas()
+
+    response.status(resultFaixa.status_code)
+    response.json(resultFaixa)
+})
+
+app.get('/v1/controle-faixa_etaria/faixa/:id', cors(), bodyParserJSON, async function (request, response) {
+
+    let idFaixa_etaria = request.params.id
+
+    let resultFaixa = await controllerFaixaEtaria.buscarFaixas(idFaixa_etaria)
+
+    response.status(resultFaixa.status_code)
+    response.json(resultFaixa)
+})
+
+app.delete('/v1/controle-faixa_etaria/faixa/delete/:id', cors(), async function (request, response) {
+
+    let id = request.params.id
+    let resultFaixa = await controllerFaixaEtaria.excluirFaixa(id)
+
+    response.status(resultFaixa.status_code)
+    response.json(resultFaixa)
+})
+
+app.put('/v1/controle-faixa_etaria/faixa/:id', cors(), bodyParserJSON, async function (request, response) {
+
+    let contentType = request.headers['content-type']
+
+    let idFaixa_etaria = request.params.id
+
+    let dadosBody = request.body
+
+    let resultFaixa = await controllerFaixaEtaria.atualizarFaixa(idFaixa_etaria, dadosBody, contentType)
+
+    response.status(resultFaixa.status_code)
+    response.json(resultFaixa)
+})
 
 
 
