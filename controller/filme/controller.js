@@ -10,6 +10,9 @@ const message = require('../../modulo/config.js')
 
 const filmeDAO = require('../../model/DAO/filme.js')
 
+
+const controllerClassificacao = require("../faixa_etaria/controller.js")
+
 const inserirFilme = async function (filme, contentType){
 try {
     if( String(contentType).toLowerCase() == 'application/json')
@@ -112,6 +115,7 @@ const excluirFilme = async function (id){
 //Funcão para tratar o retorno de filmes do DAO
 const listarFilme = async function (){
     try {
+        let ArrayFilmes = []
         let dadosFilme = {}
         let resultFilme = await filmeDAO.selectAllFilme()
 
@@ -121,7 +125,19 @@ const listarFilme = async function (){
                 dadosFilme.status = true
                 dadosFilme.status_code = 200
                 dadosFilme.items = resultFilme.length
-                dadosFilme.films = resultFilme
+                
+                for(const itemFilme of resultFilme){
+                
+                    let dadosClassificacao = await  controllerFaixaEtaria.buscarClassificacao(itemFilme.id_classificacao)
+                
+                    itemFilme.classificacao = dadosClassificacao.classificacao
+                
+                    delete itemFilme.id_classificacao
+                
+                    ArrayFilmes.push(itemFilme)
+                }
+                
+                dadosFilme.films = ArrayFilmes
 
                 return dadosFilme
             }else{
@@ -138,6 +154,8 @@ const listarFilme = async function (){
 //Funcão para tratar o retorno de um filme filtrando pelo id do DAO
 const buscarFilme = async function (id){
     try {
+        let ArrayFilmes = []
+
         if(id == '' || id == undefined || id == null || isNaN(id)|| id <= 0){
             return message.ERROR_REQUIRED_FIELDS // 400
         }else{
@@ -150,7 +168,19 @@ const buscarFilme = async function (id){
                 if(resultFilme.length > 0){
                         dadosFilme.status = true
                         dadosFilme.status_code = 200
-                        dadosFilme.filme = resultFilme
+                        
+                        for(const itemFilme of resultFilme){
+                        
+                            let dadosClassificacao = await  controllerFaixaEtaria.buscarClassificacao(itemFilme.id_classificacao)
+                        
+                            itemFilme.classificacao = dadosClassificacao.classificacao
+                        
+                            delete itemFilme.id_classificacao
+                        
+                            ArrayFilmes.push(itemFilme)
+                        }
+                        
+                        dadosFilme.films = ArrayFilmes
     
                         return dadosFilme
 
