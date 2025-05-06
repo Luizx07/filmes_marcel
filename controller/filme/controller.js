@@ -11,7 +11,7 @@ const message = require('../../modulo/config.js')
 const filmeDAO = require('../../model/DAO/filme.js')
 
 
-const controllerClassificacao = require("../faixa_etaria/controller.js")
+const controllerFaixaEtaria = require("../faixa_etaria/controller.js")
 
 const inserirFilme = async function (filme, contentType){
 try {
@@ -22,7 +22,8 @@ try {
         filme.sinopse              == '' || filme.sinopse          == undefined || filme.sinopse          == null ||
         filme.data_lancamento      == '' || filme.data_lancamento  == undefined || filme.data_lancamento  == null || filme.data_lancamento.length  > 10 || 
         filme.foto_capa.length     > 200 || filme.foto_capa        == undefined ||
-        filme.link_trailer.length  > 200 || filme.link_trailer     == undefined
+        filme.link_trailer.length  > 200 || filme.link_trailer     == undefined ||
+        filme.id_classificacao  == ''    || filme.id_classificacao  == undefined
     ){
         return message.ERROR_REQUIRED_FIELDS //400
     }else{
@@ -50,6 +51,7 @@ const atualizarFilme = async function (id, filme, contentType){
                 filme.duracao              == '' || filme.duracao          == undefined || filme.duracao          == null || filme.duracao.length          > 5  ||
                 filme.sinopse              == '' || filme.sinopse          == undefined || filme.sinopse          == null ||
                 filme.data_lancamento      == '' || filme.data_lancamento  == undefined || filme.data_lancamento  == null || filme.data_lancamento.length  > 10 || 
+                filme.id_classificacao  == ''    || filme.id_classificacao  == undefined||
                 filme.foto_capa.length     > 200 || filme.foto_capa        == undefined ||
                 filme.link_trailer.length  > 200 || filme.link_trailer     == undefined
             ){
@@ -128,11 +130,11 @@ const listarFilme = async function (){
                 
                 for(const itemFilme of resultFilme){
                 
-                    let dadosClassificacao = await  controllerFaixaEtaria.buscarClassificacao(itemFilme.id_classificacao)
+                    let dadosClassificacao = await  controllerFaixaEtaria.buscarFaixas(itemFilme.id_classificacao)
                 
                     itemFilme.classificacao = dadosClassificacao.classificacao
                 
-                    delete itemFilme.id_classificacao
+                    //delete itemFilme.id_classificacao
                 
                     ArrayFilmes.push(itemFilme)
                 }
@@ -171,11 +173,11 @@ const buscarFilme = async function (id){
                         
                         for(const itemFilme of resultFilme){
                         
-                            let dadosClassificacao = await  controllerFaixaEtaria.buscarClassificacao(itemFilme.id_classificacao)
+                            let dadosClassificacao = await  controllerFaixaEtaria.buscarFaixas(itemFilme.id_classificacao)
                         
                             itemFilme.classificacao = dadosClassificacao.classificacao
                         
-                            delete itemFilme.id_classificacao
+                            //delete itemFilme.id_classificacao
                         
                             ArrayFilmes.push(itemFilme)
                         }

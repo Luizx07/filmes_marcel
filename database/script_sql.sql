@@ -51,3 +51,9 @@ show tables;
 desc tbl_filme;
 
 select * from tbl_filme
+
+ALTER TABLE tbl_filme
+ADD COLUMN id_classificacao INT,
+ADD CONSTRAINT fk_classificacao
+    FOREIGN KEY (id_classificacao)
+    REFERENCES tbl_faixa_etaria(id);

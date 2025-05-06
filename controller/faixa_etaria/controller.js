@@ -23,14 +23,14 @@ const inserirFaixa = async function (faixa, contentType) {
     }
 }
 
-const atualizarFaixa = async function (id, genero, contentType) {
+const atualizarFaixa = async function (id, faixa, contentType) {
     try {
         if (String(contentType).toLowerCase() == 'application/json') {
             if (id == '' || id == undefined || isNaN(id) || faixa.faixa_etaria == '' || faixa.faixa_etaria.length > 45) {
                 return message.ERROR_REQUIRED_FIELDS
             } else {
-                let resultFaixa = await faixaEtariaDAO.selectByIdFaixaEtaria(parseInt(id))
-                if (resultFaixa && resultFaixa.length > 0) {
+                let resultfaixa = await faixaEtariaDAO.selectByIdFaixaEtaria(parseInt(id))
+                if (resultfaixa && resultfaixa.length > 0) {
                     faixa.id = parseInt(id)
                     let result = await faixaEtariaDAO.updateFaixaEtaria(faixa)
                     if (result) {
@@ -49,7 +49,6 @@ const atualizarFaixa = async function (id, genero, contentType) {
         return message.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
-
 const excluirFaixa = async function (id) {
     try {
         if (id == '' || id == undefined || isNaN(id)) {
@@ -75,18 +74,18 @@ const excluirFaixa = async function (id) {
 
 const listarFaixas = async function () {
     try {
-        let faixa_etaria = {}
+        let faixa = {}
         let resultFaixa = await faixaEtariaDAO.selectAllFaixaEtaria()
 
         if (resultFaixa != false) {
             if (resultFaixa.length > 0) {
 
-                faixa_etaria.status = true
-                faixa_etaria.status_code = 200
-                faixa_etaria.items = resultGenero.length
-                faixa_etaria.genero = resultGenero
+                faixa.status = true
+                faixa.status_code = 200
+                faixa.items = resultFaixa.length
+                faixa.genero = resultFaixa
 
-                return faixa_etaria
+                return faixa
             } else {
                 return message.ERROR_NOT_FOUND
             }
@@ -119,7 +118,6 @@ const buscarFaixas = async function (id) {
         return message.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
-
 module.exports = {
     inserirFaixa,
     atualizarFaixa,
